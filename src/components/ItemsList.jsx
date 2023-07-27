@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ItemsList() {
   const [todos, setTodos] = useState([
@@ -7,6 +8,12 @@ export default function ItemsList() {
     { id: '03', text: 'WIL meeting', status: 'active' },
     { id: '04', text: 'taking care of Eugene', status: 'active' },
   ]);
+  const [text, setText] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setTodos([...todos, { id: uuidv4(), text, status: 'active' }]);
+    setText('');
+  };
   return (
     <section>
       <ul>
@@ -14,6 +21,17 @@ export default function ItemsList() {
           <li key={todo.id}>{todo.text}</li>
         ))}
       </ul>
+      <form onSubmit={handleSubmit}>
+        <input
+          type='text'
+          placeholder='Add Todo..'
+          value={text}
+          onChange={(e) => {
+            setText(e.target.value);
+          }}
+        />
+        <button>Add</button>
+      </form>
     </section>
   );
 }
