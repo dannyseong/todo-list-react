@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Item from './Item';
 
-export default function ItemsList() {
+export default function ItemsList({ filter }) {
   const [todos, setTodos] = useState([
     { id: '01', text: 'coding study', status: 'active' },
     { id: '02', text: 'commit study notes', status: 'active' },
@@ -30,10 +30,11 @@ export default function ItemsList() {
     );
   };
 
+  const filtered = getFilteredItems(todos, filter);
   return (
     <section>
       <ul>
-        {todos.map((todo) => (
+        {filtered.map((todo) => (
           <Item
             key={todo.id}
             todo={todo}
@@ -55,4 +56,12 @@ export default function ItemsList() {
       </form>
     </section>
   );
+}
+
+function getFilteredItems(todos, filter) {
+  if (filter === 'all') {
+    return todos;
+  } else {
+    return todos.filter((todo) => todo.status === filter);
+  }
 }
